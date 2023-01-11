@@ -7,9 +7,6 @@ from app.forms import SignUpForm
 def index():
     return render_template('index.html')
 
-# @app.route('/signup')
-# def signup():
-#     return render_template('signup.html')
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -24,13 +21,13 @@ def signup():
         email = form.email.data
         username = form.username.data
         password = form.password.data
-        print(email, username, password)
+        print(first_name, last_name, email, username, password)
         # TODO Check to see if there is a user with username and/or email
 
         # TODO Create a new user with form data
 
         # Flash a success message
-        flash('Thank you for signing up!', 'success')
+        flash(f"Thank you {first_name} {last_name} for signing up!", 'success')
         # Redirect back to Home
         return redirect(url_for('index'))
 

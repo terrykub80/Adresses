@@ -22,11 +22,17 @@ def signup():
         email = form.email.data
         username = form.username.data
         password = form.password.data
-        print(first_name, last_name, email, username, password)
+        print(f"""
+        First Name: {first_name},
+        Last Name: {last_name},
+        Email: {email},
+        Username: {username},
+        Password: {password}
+        """)
         # Check to see if there is a user with username and/or email
-        check_user = User.query.filter( (User.username == username) | (User.email == email) ).all()
+        check_user = User.query.filter( (User.username == username) | (User.email == email) ).first()
         if check_user:
-            flash(f"The username {username} already exists. Please try again.", 'danger')
+            flash(f"A user with that username and/or email already exists. Please try again.", 'danger')
             return redirect(url_for('signup'))
         # Create a new user with form data
         new_user = User(first_name=first_name, last_name=last_name, email=email, username=username, password=password)

@@ -6,6 +6,7 @@
 
 {% if current_user.is_authenticated %}
     <h1 class="text-center">Welcome Back, {{ current_user.username }}!</h1>
+    <h3 class="text-center">Use the links in the navigation bar to add an address or view your addresses.</h3>
     {% else %}
     <h1 class="text-center mt-3 p-5">Welcome to My Address Book!</h1>
     <h4 class="text-center">Created by: Terry Kubalewski</h4>

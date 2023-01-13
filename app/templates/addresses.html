@@ -9,11 +9,11 @@
 {% for adds in address %}
 <div class="card" style="width: 18rem;">
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">{{ address.first_name }} {{ address.last_name }}</li>
-      <li class="list-group-item">{{ address.address }}</li>
-      <li class="list-group-item">{{ address.phone_number }}</li>
+      <li class="list-group-item">{{ adds.first_name }} {{ adds.last_name }}</li>
+      <li class="list-group-item">{{ adds.address }}</li>
+      <li class="list-group-item">{{ adds.phone_number }}</li>
     </ul>
-  </div>
+</div>
 {% endfor %}
 
 {% endblock %}

@@ -13,8 +13,8 @@ def index():
 @app.route('/addresses')
 @login_required
 def addresses():
-    addresses = Address.query.all()
-    return render_template('addresses.html', addresses=addresses)
+    addies = Address.query.all()
+    return render_template('addresses.html', addies=addies)
 
 
 @app.route('/signup', methods=["GET", "POST"])
@@ -97,6 +97,6 @@ def add_address():
         
         new_address = Address(first_name=first_name, last_name=last_name, phone_number=phone_number, address=address, user_id=current_user.id)
         flash(f"The address for {new_address.first_name} {new_address.last_name} has been created!", "success")
-        return redirect('addresses.html')
+        return redirect(url_for('index'))
 
     return render_template('create.html', form=form)

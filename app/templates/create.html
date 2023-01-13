@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} Add an Address {% endblock %}
+
+{% block content %}
+
+
+
+<form action="" class="bg-success-subtle rounded mt-3 p-5" method="post">
+    <h1 class="text-center">Add an Address</h1>
+    {{ form.csrf_token }}
+
+    {{ form.first_name.label }}
+    {{ form.first_name(class='form-control', placeholder='Enter First Name') }}
+
+    {{ form.last_name.label }}
+    {{ form.last_name(class='form-control', placeholder='Enter Last Name') }}
+
+    {{ form.phone_number.label }}
+    {{ form.phone_number(class='form-control', placeholder='Enter Phone Number') }}
+
+    {{ form.address.label }}
+    {{ form.address(class='form-control', placeholder='Enter Full Address (Street, City, State, ZIP)') }}
+
+    {{ form.submit(class='btn btn-success w-100 mt-3' )}}
+</form>
+
+
+
+{% endblock %}

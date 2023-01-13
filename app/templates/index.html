@@ -4,9 +4,19 @@
 
 {% block content %}
 
-        <h1 class="text-center mt-3 p-5">Welcome to My Address Book!</h1>
-        <h4 class="text-center">Created by: Terry Kubalewski</h4>
-        <p class="text-center">Use this app to keep up with addresses</p>
+{% if current_user.is_authenticated %}
+    <h1 class="text-center">Welcome Back, {{ current_user.username }}!</h1>
+    {% else %}
+    <h1 class="text-center mt-3 p-5">Welcome to My Address Book!</h1>
+    <h4 class="text-center">Created by: Terry Kubalewski</h4>
+    <p class="text-center">Use this app to keep up with addresses.</p>
+    <p class="text-center">Sign in to explore!</p>
+
+{% endif %}
+
+
+
+
 
 
 {% endblock %}

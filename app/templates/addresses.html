@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Addresses {% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">Addresses</h1>
+
+{% for adds in address %}
+<div class="card" style="width: 18rem;">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">{{ address.first_name }} {{ address.last_name }}</li>
+      <li class="list-group-item">{{ address.address }}</li>
+      <li class="list-group-item">{{ address.phone_number }}</li>
+    </ul>
+  </div>
+{% endfor %}
+
+{% endblock %}

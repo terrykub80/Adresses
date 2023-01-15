@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from app.forms import SignUpForm, LogInForm, AddressForm
 from app.models import User, Address
@@ -10,7 +10,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/addresses')
+@app.route('/addresses', methods=['GET'])
 @login_required
 def addresses():
     addies = Address.query.all()
@@ -100,3 +100,57 @@ def add_address():
         return redirect(url_for('index'))
 
     return render_template('create.html', form=form)
+
+
+@app.route('/addresses/<address_id>')
+def get_adress(address_id):
+    addies = Address.query.get(address_id)
+    if not addies:
+        flash(f"An entry with id {address_id} does not exist", "danger")
+        return redirect(url_for('index'))
+    return render_template('addresses.html', addies=addies)
+
+
+@app.route('/addresses/<address_id>/edit', methods=["GET", "POST"])
+@login_required
+def edit_address(address_id):
+    addies = Address.query.get(address_id)
+    if not addies:
+        flash(f"An entry with id {address_id} does not exist", "danger")
+        return redirect(url_for('index'))
+    # Make sure the post author is the current user
+    if addies.user_id != current_user.id:
+        flash("You do not have permission to edit this post", "danger")
+        return redirect(url_for('index'))
+    form = AddressForm()
+    if form.validate_on_submit():
+        # Get the form data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        phone_number = form.phone_number.data
+        address = form.address.data
+        # update the post using the .update method
+        addies.update(first_name=first_name, last_name=last_name, phone_number=phone_number, address=address)
+        flash(f"The address for {addies.first_name} {addies.last_name} has been updated", "success")
+        return redirect(url_for('addresses', address_id=address_id))
+    if request.method == 'GET':
+        form.first_name.data = addies.first_name
+        form.last_name.data = addies.last_name
+        form.phone_number.data = addies.phone_number
+        form.address.data = addies.address
+    return render_template('edit_address.html', addies=addies, form=form)
+
+@app.route('/addresses/<address_id>/delete')
+@login_required
+def delete_address(address_id):
+    addies = Address.query.get(address_id)
+    if not addies:
+        flash(f"An address with id {address_id} does not exist", "danger")
+        return redirect(url_for('index'))
+    # Make sure the post author is the current user
+    if addies.user_id != current_user.id:
+        flash("You do not have permission to delete this post", "danger")
+        return redirect(url_for('addresses'))
+    addies.delete()
+    flash(f"{addies.first_name} {addies.last_name} has been deleted", "info")
+    return redirect(url_for('addresses'))

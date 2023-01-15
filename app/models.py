@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.password = generate_password_hash(kwargs.get['password'])
+        self.password = generate_password_hash(kwargs['password'])
         db.session.add(self)
         db.session.commit()
         
@@ -48,4 +48,14 @@ class Address(db.Model):
 
     def __repr__(self):
         return f"<User ID: {self.id} | Address: {self.address}>"
+    
+    def update(self, **kwargs):
+        for key, value in kwargs.items():
+            if key in {'first_name', 'last_name', 'phone_number', 'address'}:
+                setattr(self, key, value)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
         
